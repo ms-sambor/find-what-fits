@@ -1,1 +1,2253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cognitive Assistive Technology Toolkit | Geneva M. Sambor, M.Ed.</title>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700&display=swap');
+
+:root{
+  --ink:#102a33;
+  --muted:#42565e;
+  --paper:#fff9e8;
+  --white:#ffffff;
+  --teal:#12384a;
+  --teal-light:#8dd4e6;
+  --purple:#7257a8;
+  --line:#12384a;
+  --shadow:4px 4px 0 #8dd4e6;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",Arial,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  font-size:18px;
+  line-height:1.45;
+}
+a{color:inherit}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:1rem;top:1rem;background:#fff;padding:.7rem 1rem;border:2px solid var(--teal);z-index:99}
+
+header{
+  width:min(1180px,calc(100% - 32px));
+  margin:24px auto 0;
+  padding:30px 32px;
+  background:var(--white);
+  border:2px solid var(--teal);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+.eyebrow{
+  color:var(--purple);
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+h1{
+  margin:.35rem 0 .55rem;
+  max-width:850px;
+  font-size:clamp(2.35rem,5vw,4.3rem);
+  line-height:1.02;
+  letter-spacing:-.025em;
+}
+.subtitle{
+  margin:0;
+  max-width:820px;
+  color:var(--muted);
+  font-size:1.15rem;
+}
+.byline{
+  margin-top:1.3rem;
+  font-size:.95rem;
+  color:var(--muted);
+}
+.byline strong{display:block;color:var(--ink);font-size:1.05rem}
+
+main{width:min(1180px,calc(100% - 32px));margin:0 auto}
+.principle{
+  margin:28px 0 10px;
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  font-size:1.05rem;
+}
+.principle strong{
+  display:inline;
+  color:var(--teal);
+  font-size:1.15rem;
+}
+section{padding:28px 0}
+h2{font-size:clamp(1.8rem,3vw,2.5rem);line-height:1.1;margin:0 0 .45rem}
+.section-intro{margin:0 0 1.2rem;color:var(--muted);max-width:800px}
+
+.controls{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin:1.25rem 0 1.5rem;
+}
+.filter{
+  min-height:108px;
+  padding:14px;
+  text-align:left;
+  font:inherit;
+  color:var(--teal);
+  background:var(--white);
+  border:2px solid var(--teal);
+  border-radius:10px;
+  box-shadow:3px 3px 0 var(--teal-light);
+  cursor:pointer;
+}
+.filter:hover,.filter:focus-visible{
+  background:#eef9fc;
+  outline:3px solid var(--purple);
+  outline-offset:2px;
+}
+.filter.active{
+  background:var(--teal);
+  color:#fff;
+  box-shadow:3px 3px 0 var(--purple);
+}
+
+.icon{
+  width:28px;
+  height:28px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vertical-align:-5px;
+  margin-right:7px;
+}
+
+.filter .icon{
+  display:block;
+  width:28px;height:28px;
+  margin:0 0 7px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.filter span{display:block;font-weight:700;font-size:1.05rem;line-height:1.1}
+.filter small{display:none}
+
+#search{
+  width:100%;
+  padding:13px 15px;
+  font:inherit;
+  font-size:1rem;
+  color:#111!important;
+  -webkit-text-fill-color:#111!important;
+  caret-color:#111;
+  background:#fff!important;
+  border:2px solid var(--teal);
+  border-radius:8px;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+#search::placeholder{color:#5d666a;opacity:1}
+#search:focus{outline:3px solid var(--purple);outline-offset:2px}
+.results-meta{margin:0 0 12px;color:var(--muted);font-size:.9rem}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  align-items:start;
+}
+.tool-card{
+  display:flex;
+  flex-direction:column;
+  min-height:285px;
+  padding:20px;
+  background:var(--white);
+  border:2px solid var(--teal);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+.tool-card[hidden]{display:none}
+.tool-card h3{margin:0 0 6px;font-size:1.42rem;line-height:1.1;color:var(--teal)}
+.tool-card h3 .icon{display:none}
+.desc{margin:0 0 14px;color:var(--ink);font-size:1rem;min-height:0}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.badge{
+  padding:3px 7px;
+  border:1.5px solid var(--teal);
+  border-radius:5px;
+  background:#fff;
+  color:var(--teal);
+  font-size:.69rem;
+  font-weight:700;
+  letter-spacing:.03em;
+}
+details{
+  margin:0 0 16px;
+  padding:0;
+  border:0;
+}
+summary{
+  cursor:pointer;
+  color:var(--purple);
+  font-weight:700;
+  font-size:.96rem;
+}
+.detail-grid{
+  display:block;
+  margin-top:10px;
+}
+.detail-grid div{
+  padding:0;
+  margin:0 0 9px;
+  background:transparent;
+  border-radius:0;
+}
+.detail-grid strong{font-size:.9rem;color:var(--teal)}
+.detail-grid p{margin:1px 0 0;color:var(--ink);font-size:.92rem}
+.visit{
+  display:inline-block;
+  align-self:flex-start;
+  margin-top:auto;
+  padding:8px 12px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:var(--teal);
+  color:#fff;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.visit:hover,.visit:focus-visible{
+  background:#fff;
+  color:var(--teal);
+  outline:3px solid var(--purple);
+  outline-offset:2px;
+}
+
+.timer-options{display:grid;gap:7px;margin:10px 0 12px}
+.timer-options a{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:8px 10px;
+  border:1.5px solid var(--teal);
+  border-radius:6px;
+  text-decoration:none;
+  background:#fff;
+}
+.timer-options a:hover,.timer-options a:focus-visible{background:#eef9fc;outline:2px solid var(--purple)}
+.timer-options span{display:none}
+.timer-options b{color:var(--purple);white-space:nowrap}
+
+#choose{
+  margin:16px 0 28px;
+  padding:28px 30px;
+  background:var(--white);
+  border:2px solid var(--teal);
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+#choose h2 .icon{display:none}
+.choose-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+.choose-card{
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  font-size:.96rem;
+}
+.choose-card b{display:block;color:var(--purple);font-size:1.05rem;margin-bottom:2px}
+.flow{
+  margin:20px 0 0;
+  padding:12px 14px;
+  background:var(--paper);
+  border-radius:7px;
+  font-weight:700;
+  color:var(--teal);
+}
+section:last-of-type{padding-top:0}
+section:last-of-type h2{font-size:1.25rem}
+section:last-of-type .section-intro{font-size:.9rem}
+.note{
+  margin:0;
+  padding-top:8px;
+  border-top:1px solid #b9c1c4;
+  color:var(--muted);
+  font-size:.82rem;
+}
+footer{
+  margin-top:20px;
+  padding:22px 16px 30px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.82rem;
+}
+
+@media(max-width:900px){
+  .controls{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .choose-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  body{font-size:17px}
+  header{padding:24px 20px}
+  .controls{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+  .choose-grid{grid-template-columns:1fr}
+  .tool-card{min-height:0}
+}
+
+/* Keep card content aligned across each row */
+.tool-card .card-top{
+  min-height:92px;
+}
+.tool-card .badges{
+  min-height:54px;
+  align-content:flex-start;
+}
+.tool-card details{
+  min-height:34px;
+}
+.tool-card > .visit{
+  margin-top:auto;
+}
+@media(max-width:620px){
+  .tool-card .card-top,
+  .tool-card .badges,
+  .tool-card details{
+    min-height:0;
+  }
+}
+
+
+/* Each card grows independently when its details are opened. */
+.tool-card{
+  height:auto;
+}
+.tool-card:has(details[open]){
+  min-height:285px;
+}
+
+
+/* Accessible expand/collapse controls */
+.tool-card summary{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:46px;
+  padding:9px 11px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:#ffffff;
+  color:var(--teal);
+  cursor:pointer;
+  font-size:1rem;
+  font-weight:700;
+}
+.tool-card summary::-webkit-details-marker{display:none}
+.tool-card summary::marker{content:""}
+.tool-card summary::after{
+  content:"+";
+  display:grid;
+  place-items:center;
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--teal);
+  color:#ffffff;
+  font-size:1.35rem;
+  font-weight:700;
+  line-height:1;
+}
+.tool-card details[open] summary::after{content:"−"}
+.tool-card summary:hover{
+  background:#eef9fc;
+}
+.tool-card summary:focus-visible{
+  outline:4px solid var(--focus);
+  outline-offset:3px;
+}
+
+
+/* Cleaner expand/collapse control */
+.tool-card details{
+  margin:0 0 16px;
+  padding:0;
+  border:0;
+}
+.tool-card summary{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  min-height:42px;
+  padding:8px 2px;
+  border:0;
+  border-top:2px solid var(--teal);
+  border-radius:0;
+  background:transparent;
+  color:var(--teal);
+  cursor:pointer;
+  font-size:1rem;
+  font-weight:700;
+}
+.tool-card summary::-webkit-details-marker{display:none}
+.tool-card summary::marker{content:""}
+.tool-card summary::after{
+  content:"+";
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  margin:0;
+  padding:0 0 2px 0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--purple);
+  font-family:Arial,sans-serif;
+  font-size:1.65rem;
+  font-weight:400;
+  line-height:1;
+}
+.tool-card details[open] summary::after{
+  content:"−";
+  padding-bottom:3px;
+}
+.tool-card summary:hover{
+  background:transparent;
+  color:var(--purple);
+}
+.tool-card summary:focus-visible{
+  outline:3px solid var(--purple);
+  outline-offset:4px;
+  border-radius:4px;
+}
+
+
+/* Accessibility pass: larger type and consistent collapsed card heights */
+body{
+  font-size:20px;
+}
+.eyebrow{font-size:1rem}
+.subtitle{font-size:1.25rem;line-height:1.5}
+.byline{font-size:1rem}
+.byline strong{font-size:1.15rem}
+
+.filter{
+  min-height:112px;
+}
+.filter span{
+  font-size:1.12rem;
+}
+#search{
+  font-size:1.08rem;
+}
+.results-meta{
+  font-size:1rem;
+}
+
+.grid{
+  align-items:start;
+}
+.tool-card{
+  min-height:340px;
+  height:340px;
+  padding:22px;
+}
+.tool-card .card-top{
+  min-height:112px;
+}
+.tool-card h3{
+  font-size:1.55rem;
+  line-height:1.15;
+}
+.desc{
+  font-size:1.08rem;
+  line-height:1.45;
+}
+.tool-card .badges{
+  min-height:58px;
+  margin-bottom:14px;
+}
+.badge{
+  font-size:.82rem;
+  padding:5px 8px;
+  line-height:1.15;
+}
+.tool-card details{
+  min-height:48px;
+  margin-bottom:14px;
+}
+.tool-card summary{
+  min-height:46px;
+  font-size:1.05rem;
+  line-height:1.25;
+}
+.tool-card .visit{
+  font-size:1.05rem;
+  padding:9px 13px;
+}
+
+/* Only the card that is opened is allowed to grow. */
+.tool-card:has(details[open]){
+  height:auto;
+  min-height:340px;
+}
+.tool-card details[open]{
+  min-height:0;
+}
+.detail-grid strong{
+  font-size:1rem;
+}
+.detail-grid p{
+  font-size:1rem;
+  line-height:1.45;
+}
+.timer-options a{
+  font-size:1rem;
+  padding:10px 11px;
+}
+
+.choose-card{
+  font-size:1.05rem;
+  line-height:1.45;
+}
+.choose-card b{
+  font-size:1.15rem;
+}
+.note{
+  font-size:.95rem;
+  line-height:1.5;
+}
+footer{
+  font-size:.95rem;
+}
+
+@media(max-width:900px){
+  .tool-card{
+    height:350px;
+    min-height:350px;
+  }
+  .tool-card:has(details[open]){
+    height:auto;
+    min-height:350px;
+  }
+}
+@media(max-width:620px){
+  body{font-size:19px}
+  .tool-card,
+  .tool-card:has(details[open]){
+    height:auto;
+    min-height:0;
+  }
+  .tool-card .card-top,
+  .tool-card .badges,
+  .tool-card details{
+    min-height:0;
+  }
+}
+
+
+/* High-contrast text: no gray body copy */
+body,
+.subtitle,
+.byline,
+.section-intro,
+.desc,
+.results-meta,
+.detail-grid p,
+.note,
+footer,
+.timer-options span{
+  color:var(--ink) !important;
+}
+
+/* Make How do I choose? a strong, scannable card section */
+#choose{
+  padding:32px;
+  background:var(--teal);
+  border:2px solid var(--teal);
+  border-radius:12px;
+  box-shadow:5px 5px 0 var(--purple);
+  color:#ffffff;
+}
+#choose h2{
+  color:#ffffff;
+  font-size:2.35rem;
+}
+#choose .section-intro{
+  color:#ffffff !important;
+  font-size:1.15rem;
+  max-width:760px;
+  margin-bottom:20px;
+}
+.choose-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.choose-card{
+  min-height:150px;
+  padding:18px;
+  background:#ffffff;
+  color:var(--ink);
+  border:2px solid #ffffff;
+  border-radius:10px;
+  box-shadow:4px 4px 0 var(--teal-light);
+  font-size:1.08rem;
+  line-height:1.45;
+}
+.choose-card b{
+  display:block;
+  margin-bottom:8px;
+  color:var(--purple);
+  font-size:1.25rem;
+  line-height:1.2;
+}
+@media(max-width:900px){
+  .choose-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:620px){
+  #choose{padding:24px 20px}
+  .choose-grid{grid-template-columns:1fr}
+  .choose-card{min-height:0}
+}
+
+
+/* Descriptive tags support scanning and search */
+.badge{
+  background:var(--paper);
+  color:var(--teal);
+  border:1.5px solid var(--teal);
+}
+
+/* Only "How do I choose?" is a click-through experience */
+#choose{
+  background:var(--teal);
+  color:#fff;
+  padding:32px;
+}
+#choose h2,
+#choose .section-intro{color:#fff !important}
+.choice-wizard{
+  max-width:760px;
+  margin:22px auto 0;
+  padding:26px;
+  background:#fff;
+  color:var(--ink);
+  border:2px solid #fff;
+  border-radius:12px;
+  box-shadow:5px 5px 0 var(--teal-light);
+}
+.choice-progress{
+  margin-bottom:18px;
+  color:var(--purple);
+  font-size:1.05rem;
+  font-weight:700;
+}
+.choice-step{display:none;min-height:190px}
+.choice-step.active{display:block}
+.step-number{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  margin-bottom:16px;
+  border-radius:50%;
+  background:var(--purple);
+  color:#fff;
+  font-size:1.35rem;
+  font-weight:700;
+}
+.choice-step h3{
+  margin:0 0 8px;
+  color:var(--teal);
+  font-size:2rem;
+  line-height:1.1;
+}
+.choice-step p{
+  margin:0;
+  color:var(--ink);
+  font-size:1.25rem;
+}
+.choice-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:20px;
+  padding-top:18px;
+  border-top:2px solid var(--teal);
+}
+.choice-nav button{
+  min-width:120px;
+  min-height:48px;
+  padding:9px 16px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:var(--teal);
+  color:#fff;
+  font:inherit;
+  font-size:1.05rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.choice-nav button:hover,
+.choice-nav button:focus-visible{
+  background:#fff;
+  color:var(--teal);
+  outline:3px solid var(--purple);
+  outline-offset:2px;
+}
+.choice-nav button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+
+
+/* Compact guide integrated into the top header */
+header{
+  padding:30px 32px;
+}
+.header-main{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(310px,.85fr);
+  gap:34px;
+  align-items:start;
+}
+.updated{
+  margin-top:7px;
+  font-size:.95rem;
+  color:var(--ink);
+}
+.start-guide{
+  padding:20px;
+  background:var(--paper);
+  border:2px solid var(--teal);
+  border-radius:10px;
+  box-shadow:4px 4px 0 var(--purple);
+}
+.start-guide h2{
+  margin:0 0 14px;
+  color:var(--teal);
+  font-size:1.45rem;
+  line-height:1.15;
+}
+.guide-preview,
+.guide-more ol{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.guide-preview li,
+.guide-more li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin:10px 0;
+  color:var(--ink);
+  font-size:1rem;
+  line-height:1.3;
+}
+.guide-preview li > span,
+.guide-more li > span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:var(--teal);
+  color:#fff;
+  font-weight:700;
+}
+.guide-more b{display:block;color:var(--teal)}
+.guide-more small{
+  display:block;
+  margin-top:2px;
+  color:var(--ink);
+  font-size:.95rem;
+  line-height:1.3;
+}
+.guide-toggle{
+  width:100%;
+  min-height:46px;
+  margin-top:12px;
+  padding:9px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:var(--teal);
+  color:#fff;
+  font:inherit;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.guide-toggle:hover,
+.guide-toggle:focus-visible{
+  background:#fff;
+  color:var(--teal);
+  outline:3px solid var(--purple);
+  outline-offset:2px;
+}
+.guide-toggle > span{
+  font-family:Arial,sans-serif;
+  font-size:1.45rem;
+  line-height:1;
+}
+.guide-more{
+  margin-top:14px;
+  padding-top:6px;
+  border-top:2px solid var(--teal);
+}
+.start-line{
+  margin:28px 0 6px;
+  color:var(--teal);
+  font-size:1.15rem;
+}
+@media(max-width:850px){
+  .header-main{grid-template-columns:1fr}
+  .start-guide{max-width:none}
+}
+
+
+
+/* Cleaner card rhythm */
+.tool-card{
+  padding:24px;
+}
+.tool-card .card-top{
+  min-height:0;
+  margin-bottom:14px;
+}
+.tool-card h3{
+  margin:0 0 10px;
+}
+.tool-card .desc{
+  margin:0;
+  line-height:1.5;
+}
+.tool-card .badges{
+  min-height:0;
+  margin:0 0 20px;
+  gap:8px;
+}
+.tool-card details{
+  margin-top:auto;
+  margin-bottom:16px;
+}
+.tool-card summary{
+  margin-top:0;
+}
+.tool-card .visit{
+  margin-top:0;
+}
+
+/* Make the collapsed cards equal without forcing large blank zones inside them */
+.tool-card{
+  height:360px;
+  min-height:360px;
+}
+.tool-card:has(details[open]){
+  height:auto;
+  min-height:360px;
+}
+@media(max-width:900px){
+  .tool-card{
+    height:380px;
+    min-height:380px;
+  }
+  .tool-card:has(details[open]){
+    height:auto;
+    min-height:380px;
+  }
+}
+@media(max-width:620px){
+  .tool-card,
+  .tool-card:has(details[open]){
+    height:auto;
+    min-height:0;
+  }
+}
+
+/* Small accessibility toolbar */
+.access-tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+.access-button{
+  min-height:46px;
+  padding:9px 13px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:#fff;
+  color:var(--teal);
+  font:inherit;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.access-button:hover,
+.access-button:focus-visible{
+  background:var(--teal);
+  color:#fff;
+  outline:3px solid var(--purple);
+  outline-offset:3px;
+}
+.access-status{
+  align-self:center;
+  font-size:.95rem;
+  font-weight:700;
+  color:var(--ink);
+}
+
+/* Concise About section */
+.about-toolkit{
+  margin-top:10px;
+  padding:22px 24px;
+  background:#fff;
+  border:2px solid var(--teal);
+  border-radius:10px;
+  box-shadow:4px 4px 0 var(--teal-light);
+}
+.about-toolkit h2{margin:0 0 8px}
+.about-toolkit p{margin:0;line-height:1.5;color:var(--ink)}
+
+
+/* Per-card read-aloud control */
+.card-read{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  align-self:flex-start;
+  min-height:42px;
+  margin:0 0 16px;
+  padding:7px 10px;
+  border:0;
+  border-radius:5px;
+  background:transparent;
+  color:var(--purple);
+  font:inherit;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+}
+.card-read:hover{
+  text-decoration:underline;
+}
+.card-read:focus-visible{
+  outline:3px solid var(--purple);
+  outline-offset:3px;
+}
+.card-read[aria-pressed="true"]{
+  color:var(--teal);
+}
+
+
+/* Compact read-aloud icon: does not alter card typography */
+.card-read{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  align-self:flex-start;
+  width:44px;
+  height:44px;
+  min-height:44px;
+  margin:0 0 16px;
+  padding:0;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:#fff;
+  color:var(--teal);
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.card-read:hover{
+  background:var(--teal);
+  text-decoration:none;
+}
+.card-read:focus-visible{
+  outline:3px solid var(--purple);
+  outline-offset:3px;
+}
+.card-read[aria-pressed="true"]{
+  background:var(--teal);
+  border-color:var(--teal);
+}
+.speaker-icon{
+  display:block;
+  font-size:1.25rem;
+  line-height:1;
+  filter:grayscale(1);
+}
+.card-read:hover .speaker-icon,
+.card-read[aria-pressed="true"] .speaker-icon{
+  filter:grayscale(1) brightness(0) invert(1);
+}
+
+
+/* Bottom action row: Visit Tool left, read-aloud right */
+.card-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:auto;
+}
+.card-actions .visit{
+  margin:0;
+}
+.card-read{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  min-height:48px;
+  margin:0;
+  padding:0;
+  border:3px solid var(--teal);
+  border-radius:7px;
+  background:var(--teal);
+  color:#fff;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--purple);
+}
+.card-read:hover{
+  background:#fff;
+  color:var(--teal);
+  text-decoration:none;
+}
+.card-read:focus-visible{
+  outline:4px solid var(--purple);
+  outline-offset:3px;
+}
+.card-read[aria-pressed="true"]{
+  background:var(--purple);
+  border-color:var(--purple);
+  color:#fff;
+}
+.speaker-svg{
+  width:27px;
+  height:27px;
+  fill:currentColor;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.speaker-svg path:nth-child(n+2){
+  fill:none;
+}
+
+
+/* Tool-finder intro: clear hierarchy and breathing room */
+main > h2{
+  margin:36px 0 10px !important;
+  font-size:2rem !important;
+  line-height:1.2 !important;
+  color:var(--ink) !important;
+}
+main > h2 + p,
+.section-intro{
+  margin:0 0 26px !important;
+  font-size:1.15rem !important;
+  line-height:1.5 !important;
+  color:var(--ink) !important;
+}
+.filters{
+  margin-top:22px !important;
+}
+
+/* Word highlighting added dynamically, without changing normal typography */
+.reading-highlight{
+  background:#ffeb70;
+  color:#111;
+  border-radius:3px;
+  box-shadow:0 0 0 2px #ffeb70;
+}
+.tool-card.is-being-read{
+  outline:3px solid var(--purple);
+  outline-offset:4px;
+}
+
+
+/* Correct tool-finder heading hierarchy */
+#toolkit > h2{
+  margin:42px 0 12px !important;
+  font-size:2.35rem !important;
+  line-height:1.12 !important;
+  color:var(--ink) !important;
+}
+#toolkit > .section-intro{
+  margin:0 0 30px !important;
+  max-width:none !important;
+  font-size:1.2rem !important;
+  line-height:1.5 !important;
+  color:var(--ink) !important;
+}
+#toolkit > .controls{
+  margin-top:0 !important;
+}
+
+/* Current spoken word: uses the CSS Highlight API, so the DOM/layout never changes */
+::highlight(spoken-word){
+  background:#ffeb70;
+  color:#111;
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+}
+.tool-card.is-being-read{
+  outline:3px solid var(--purple);
+  outline-offset:4px;
+}
+
+
+/* Consistent card geometry without reducing type size */
+.tool-card{display:flex;flex-direction:column}
+.tool-card .card-top{min-height:146px !important;margin-bottom:0 !important}
+.tool-card h3{min-height:2.35rem}
+.tool-card .desc{min-height:4.5rem;margin-bottom:14px !important}
+.tool-card .badges{min-height:62px !important;align-content:flex-start;margin-bottom:16px !important}
+.tool-card details{margin-top:0 !important;margin-bottom:18px !important}
+.tool-card .card-actions{margin-top:auto !important}
+
+/* Footer/accessibility note */
+.site-footer{
+  margin-top:38px;padding:22px 0 8px;border-top:2px solid var(--teal);
+  color:var(--ink);font-size:1rem;line-height:1.5
+}
+.site-footer p{margin:5px 0;color:var(--ink)}
+.sr-only{
+  position:absolute !important;width:1px !important;height:1px !important;
+  padding:0 !important;margin:-1px !important;overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;white-space:nowrap !important;border:0 !important
+}
+@media(max-width:620px){
+  .tool-card .card-top,.tool-card h3,.tool-card .desc,.tool-card .badges{min-height:0 !important}
+}
+
+
+/* Taller, consistently aligned desktop cards */
+.tool-card{
+  height:410px !important;
+  min-height:410px !important;
+  padding:24px 24px 22px !important;
+  box-sizing:border-box;
+}
+.tool-card .card-top{
+  min-height:170px !important;
+  margin:0 !important;
+}
+.tool-card h3{
+  min-height:2.7rem !important;
+  margin:0 0 10px !important;
+}
+.tool-card .desc{
+  min-height:5.25rem !important;
+  margin:0 0 14px !important;
+}
+.tool-card .badges{
+  min-height:66px !important;
+  margin:0 !important;
+  align-content:flex-start;
+}
+.tool-card details{
+  min-height:64px !important;
+  margin:0 0 18px !important;
+  flex:0 0 auto;
+}
+.tool-card summary{
+  min-height:50px !important;
+  box-sizing:border-box;
+}
+.tool-card .card-actions{
+  min-height:52px;
+  margin-top:auto !important;
+  padding:0 !important;
+  flex:0 0 auto;
+}
+
+/* An opened card can grow; neighboring cards keep their normal height. */
+.tool-card:has(details[open]){
+  height:auto !important;
+  min-height:410px !important;
+}
+.tool-card:has(details[open]) details{
+  min-height:0 !important;
+}
+
+/* Focus Timers is a collection and has no single Visit Tool destination.
+   Keep its speaker aligned bottom-right without inventing a visit button. */
+.tool-card:has(h3:first-child){
+  box-sizing:border-box;
+}
+.focus-actions{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  min-height:52px;
+  margin-top:auto;
+}
+
+/* Responsive: don't force tall fixed cards on narrow screens */
+@media(max-width:900px){
+  .tool-card{
+    height:430px !important;
+    min-height:430px !important;
+  }
+  .tool-card:has(details[open]){
+    height:auto !important;
+    min-height:430px !important;
+  }
+}
+@media(max-width:620px){
+  .tool-card,
+  .tool-card:has(details[open]){
+    height:auto !important;
+    min-height:0 !important;
+  }
+  .tool-card .card-top,
+  .tool-card h3,
+  .tool-card .desc,
+  .tool-card .badges,
+  .tool-card details{
+    min-height:0 !important;
+  }
+}
+
+
+/* Two primary tags per card */
+.tool-card .badges{
+  min-height:48px !important;
+}
+
+
+/* 200% zoom: let tags wrap naturally and keep divider below them */
+.tool-card .badges{
+  min-height:0 !important;
+  height:auto !important;
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:flex-start !important;
+  align-content:flex-start !important;
+  gap:8px !important;
+  margin:0 0 18px !important;
+}
+.tool-card .badge{
+  max-width:100%;
+  white-space:normal !important;
+  line-height:1.2 !important;
+}
+.tool-card details{
+  clear:both;
+  position:relative;
+  margin-top:0 !important;
+}
+.tool-card summary{
+  border-top:2px solid var(--teal);
+  padding-top:14px !important;
+}
+
+/* At enlarged text/zoom, stop reserving rigid internal heights */
+@media (max-width:1100px){
+  .tool-card{
+    height:auto !important;
+    min-height:430px !important;
+  }
+  .tool-card .card-top,
+  .tool-card h3,
+  .tool-card .desc,
+  .tool-card .badges,
+  .tool-card details{
+    min-height:0 !important;
+  }
+  .tool-card .card-actions{
+    margin-top:auto !important;
+    padding-top:18px !important;
+  }
+}
+
+/* Colorless / reduced-distraction mode */
+.colorless-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-height:46px;
+  padding:9px 13px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:#fff;
+  color:var(--teal);
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.colorless-toggle svg{
+  width:23px;height:23px;fill:none;stroke:currentColor;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round
+}
+.colorless-toggle:focus-visible{
+  outline:4px solid var(--purple);
+  outline-offset:3px;
+}
+
+body.colorless{
+  background:#fff !important;
+  color:#000 !important;
+}
+body.colorless *{
+  --teal:#000;
+  --ink:#000;
+  --purple:#000;
+  --teal-light:#fff;
+}
+body.colorless .tool-card,
+body.colorless .filter,
+body.colorless .start-guide,
+body.colorless .site-footer{
+  background:#fff !important;
+  color:#000 !important;
+  box-shadow:none !important;
+  border-color:#000 !important;
+}
+body.colorless .badge{
+  background:#fff !important;
+  color:#000 !important;
+  border-color:#000 !important;
+}
+body.colorless .visit,
+body.colorless .card-read,
+body.colorless .colorless-toggle,
+body.colorless .filter.active{
+  background:#000 !important;
+  color:#fff !important;
+  border-color:#000 !important;
+  box-shadow:none !important;
+}
+body.colorless .reading-highlight{
+  background:#ddd !important;
+  color:#000 !important;
+  box-shadow:0 0 0 2px #000 !important;
+}
+body.colorless ::highlight(spoken-word){
+  background:#ddd;
+  color:#000;
+  text-decoration:underline;
+  text-decoration-thickness:2px;
+}
+
+
+/* Heading + display preference belong together */
+.toolkit-heading-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin:42px 0 10px;
+}
+.toolkit-heading-row h2{
+  margin:0 !important;
+  font-size:2.35rem !important;
+  line-height:1.12 !important;
+  color:var(--ink) !important;
+}
+.toolkit-heading-row + .section-intro{
+  margin-top:0 !important;
+}
+.toolkit-heading-row .colorless-toggle{
+  flex:0 0 auto;
+  box-shadow:none;
+}
+@media(max-width:700px){
+  .toolkit-heading-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
+
+/* Preserve depth cues in colorless mode without relying on color */
+body.colorless .tool-card,
+body.colorless .filter,
+body.colorless .start-guide{
+  box-shadow:6px 6px 0 #d9d9d9 !important;
+}
+body.colorless .visit,
+body.colorless .card-read,
+body.colorless .colorless-toggle,
+body.colorless .filter.active{
+  box-shadow:3px 3px 0 #b8b8b8 !important;
+}
+body.colorless .filter.active{
+  outline:2px solid #000;
+  outline-offset:2px;
+}
+
+
+/* Strong depth cues in colorless mode */
+body.colorless .tool-card,
+body.colorless .filter,
+body.colorless .start-guide{
+  box-shadow:6px 6px 0 #000 !important;
+}
+body.colorless .visit,
+body.colorless .card-read,
+body.colorless .colorless-toggle,
+body.colorless .filter.active{
+  box-shadow:3px 3px 0 #000 !important;
+}
+
+
+/* Search + display preference: one compact control group */
+.finder-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  flex:0 1 auto;
+}
+.compact-search{
+  display:flex;
+  align-items:center;
+  width:min(290px,32vw);
+  min-height:46px;
+  padding:0 12px;
+  border:2px solid var(--teal);
+  border-radius:7px;
+  background:#fff;
+  color:var(--teal);
+  box-shadow:3px 3px 0 var(--teal-light);
+}
+.compact-search svg{
+  flex:0 0 22px;
+  width:22px;
+  height:22px;
+  margin-right:9px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+}
+.compact-search input{
+  width:100% !important;
+  min-width:0;
+  height:auto !important;
+  padding:8px 0 !important;
+  border:0 !important;
+  outline:0 !important;
+  background:transparent !important;
+  color:var(--ink) !important;
+  font:inherit !important;
+  font-size:1rem !important;
+  box-shadow:none !important;
+}
+.compact-search input::placeholder{
+  color:var(--ink) !important;
+  opacity:1;
+}
+.compact-search:focus-within{
+  outline:4px solid var(--purple);
+  outline-offset:3px;
+}
+body.colorless .compact-search{
+  border-color:#000 !important;
+  color:#000 !important;
+  box-shadow:3px 3px 0 #000 !important;
+}
+@media(max-width:900px){
+  .toolkit-heading-row{
+    align-items:flex-start;
+  }
+  .finder-actions{
+    flex-wrap:wrap;
+  }
+  .compact-search{
+    width:min(280px,100%);
+  }
+}
+@media(max-width:700px){
+  .finder-actions{
+    width:100%;
+    justify-content:flex-start;
+  }
+  .compact-search{
+    flex:1 1 220px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+</head>
+<body>
+<a class="skip" href="#toolkit">Skip to toolkit</a>
+
+<header>
+  <div class="header-main">
+    <div class="header-copy">
+      <div class="eyebrow">Cognitive Assistive Technology Resource</div>
+      <h1>Find What Fits</h1>
+      <p class="subtitle">A collection of simple, free web tools for planning, remembering, focus,<br>time, and routines, with an emphasis on tools that work across devices.</p>
+      <div class="byline">
+        <strong>Geneva M. Sambor, M.Ed.</strong>
+        K–12 Digital Learning Specialist
+        <div class="updated">Last updated: September 2026</div>
+      </div>
+    </div>
+
+<aside class="start-guide">
+      <h2>Not sure where to start?</h2>
+      <ol class="guide-preview">
+        <li><span>1</span>What do I need to do?</li>
+        <li><span>2</span>What's making it hard?</li>
+        <li><span>3</span>What might help?</li>
+      </ol>
+      <button type="button" class="guide-toggle" id="guideToggle" aria-expanded="false" aria-controls="guideMore">
+        Try the 6-step guide <span aria-hidden="true">+</span>
+      </button>
+      <div class="guide-more" id="guideMore" hidden>
+        <ol start="4">
+          <li><span>4</span><div><b>Try it.</b><small>Use the tool during the real task.</small></div></li>
+          <li><span>5</span><div><b>Did it help?</b><small>Keep it, change it, or try something else.</small></div></li>
+          <li><span>6</span><div><b>Check again.</b><small>Your needs and tools can change.</small></div></li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+</header>
+
+
+<main>
+
+  <section id="toolkit">
+    
+<div class="toolkit-heading-row">
+      <h2>What do you need help with?</h2>
+      <div class="finder-actions">
+        <div class="compact-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+          <input id="search" type="search" placeholder="Search tools" autocomplete="off" aria-label="Search tools by name, task, or support type">
+        </div>
+        <button type="button" id="colorlessToggle" class="colorless-toggle"
+        aria-pressed="false" aria-label="Turn on colorless mode">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="8"></circle>
+    <path d="M12 4v16"></path>
+  </svg>
+  <span>Colorless</span>
+</button>
+      </div>
+    </div>
+
+    <p class="section-intro">Choose what you want help with.</p>
+    <div class="controls"><button aria-label="Show all tools" class="filter active" data-filter="all" aria-pressed="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg><span>All Tools</span><small>Browse the complete toolkit.</small></button>
+<button aria-label="Show tools for remembering" class="filter" data-filter="remember" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l2 2 4-4"/><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M9 4V2h6v2"/></svg><span>Remember</span><small>I forget what I need to do.</small></button>
+<button aria-label="Show tools for sequencing tasks" class="filter" data-filter="sequence" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7.5l3.5 3M13.5 13.5l3.5 3"/></svg><span>Sequence</span><small>I lose track of the steps.</small></button>
+<button aria-label="Show tools for knowing what comes next" class="filter" data-filter="transition" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14"/><path d="M14 7l5 5-5 5"/></svg><span>Know What's Next</span><small>I need help anticipating what happens next.</small></button>
+<button aria-label="Show tools for focus" class="filter" data-filter="time" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg><span>Understand Time</span><small>I need to see how much time is left or where I am in my day.</small></button>
+<button aria-label="Show tools for time awareness" class="filter" data-filter="start" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>Get Started</span><small>I know what to do, but starting is difficult.</small></button>
+<button aria-label="Show tools for planning" class="filter" data-filter="focus" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg><span>Stay Focused</span><small>I need support staying with a task.</small></button>
+<button aria-label="Show tools for organization" class="filter" data-filter="prioritize" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h9M8 18h6"/><path d="M4 5v2M4 11v2M4 17v2"/></svg><span>Prioritize</span><small>I have several things to do and don't know what comes first.</small></button>
+<button class="filter" data-filter="plan" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 9h16"/></svg><span>Plan & Organize</span><small>I need to externalize my day, week, or workload.</small></button>
+<button class="filter" data-filter="regulate" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8c3-3 5 3 8 0s5 3 8 0M4 16c3-3 5 3 8 0s5 3 8 0"/></svg><span>Regulate</span><small>I need sensory or emotional regulation support.</small></button></div>
+    <div class="grid" id="toolGrid">
+      <article class="tool-card" data-cats="sequence transition start" data-search="kiddo print maker printable visual schedules, first–then–next boards, routines, and checklists. a learner benefits from seeing a routine or sequence represented visually. visual schedule routines sequencing to-do list remembering priorities first–then transitions sequencing collection planning routines visual timer time awareness transitions focus work/break task starting visual schedule routines pictures visual schedule now/next transitions schedule planning time collection regulation sensory tasks priorities organization priorities tasks decision-making visual day time awareness planning planner routines organization simple list remembering tasks">
+      <div class="card-top">
+        <div>
+          <h3>Kiddo Print Maker</h3>
+          <p class="desc">Create visual schedules, routines, checklists, and First–Then–Next boards.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">VISUAL SCHEDULE</span><span class="badge">ROUTINES</span></div>
+      <details>
+        <summary aria-label="More information about Kiddo Print Maker"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Seeing the steps in a routine.</p></div>
+          <div><strong>Think about</strong><p>Would you remember to check it?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://kiddoprintmaker.com/free-visual-schedule-printable/" target="_blank" rel="noopener noreferrer" aria-label="Visit Kiddo Print Maker website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Kiddo Print Maker information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="remember prioritize plan" data-search="utilokit to-do a browser-based task list with priorities, due dates, ordering, and templates. a learner needs to externalize tasks and check them off rather than hold them in working memory.">
+      <div class="card-top">
+        <div>
+          <h3>UtiloKit To-Do</h3>
+          <p class="desc">Organize tasks with priorities, due dates, ordering, and reusable lists.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">TASKS</span><span class="badge">PRIORITIES</span></div>
+      <details>
+        <summary aria-label="More information about UtiloKit To-Do"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Remembering what you need to do.</p></div>
+          <div><strong>Think about</strong><p>Are the extra choices helpful or distracting?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://utilokit.com/tools/todo-list" target="_blank" rel="noopener noreferrer" aria-label="Visit UtiloKit To-Do website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read UtiloKit To-Do information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="sequence transition start" data-search="nurturevia first–then board a very simple first → then visual support for a current task and what comes next. a learner benefits from reducing a transition or sequence to only two visible steps.">
+      <div class="card-top">
+        <div>
+          <h3>Nurturevia First–Then Board</h3>
+          <p class="desc">Show what to do now and what comes next with a simple visual.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">FIRST–THEN</span><span class="badge">TRANSITIONS</span></div>
+      <details>
+        <summary aria-label="More information about Nurturevia First–Then Board"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Seeing what to do now and what comes next.</p></div>
+          <div><strong>Think about</strong><p>Do you need to see more than two steps?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://www.nurturevia.com/tools/first-then-board" target="_blank" rel="noopener noreferrer" aria-label="Visit Nurturevia First–Then Board website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Nurturevia First–Then Board information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="remember plan sequence start" data-search="dailyplanly a collection of planning, routine, and checklist tools. a learner benefits from combining routines and planning supports in one place.">
+      <div class="card-top">
+        <div>
+          <h3>DailyPlanly</h3>
+          <p class="desc">Plan routines and daily tasks using simple checklists and helpful planning tools.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">PLANNING</span><span class="badge">ROUTINES</span></div>
+      <details>
+        <summary aria-label="More information about DailyPlanly"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Keeping routines and plans in one place.</p></div>
+          <div><strong>Think about</strong><p>Which tool in the collection helps with what you need to do?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://dailyplanly.vercel.app/tools/" target="_blank" rel="noopener noreferrer" aria-label="Visit DailyPlanly website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read DailyPlanly information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="time transition" data-search="simplecounter a simple visual countdown for making remaining time concrete. a learner needs a low-distraction way to see how much time remains.">
+      <div class="card-top">
+        <div>
+          <h3>SimpleCounter</h3>
+          <p class="desc">See how much time remains using a simple visual countdown for tasks.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">VISUAL TIMER</span><span class="badge">TIME AWARENESS</span></div>
+      <details>
+        <summary aria-label="More information about SimpleCounter"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Seeing how much time is left.</p></div>
+          <div><strong>Think about</strong><p>Do you also need to know what comes next?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://simplecounter.co/" target="_blank" rel="noopener noreferrer" aria-label="Visit SimpleCounter website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read SimpleCounter information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+
+    <article class="tool-card" data-cats="start focus prioritize plan" data-search="focus timers pomodoro work break start focus pomodash refocus tomatito focustide kanban">
+      <div class="card-top">
+        <div>
+          <h3>Focus Timers</h3>
+          <p class="desc">Use simple focus timers to alternate between work periods and planned breaks.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">FOCUS</span><span class="badge">WORK/BREAK</span></div>
+      <details>
+        <summary><span>Compare the 5 focus timers</span></summary>
+        <div class="timer-options">
+          <a href="https://www.pomodash.com/" target="_blank" rel="noopener noreferrer"><strong>PomoDash</strong><span>See your focus progress.</span><b>Open ↗</b></a>
+          <a href="https://refocus.run/" target="_blank" rel="noopener noreferrer"><strong>Refocus</strong><span>Keep it very simple.</span><b>Open ↗</b></a>
+          <a href="https://app.tomatito.app/" target="_blank" rel="noopener noreferrer"><strong>Tomatito</strong><span>Use clear work and break times.</span><b>Open ↗</b></a>
+          <a href="https://focustide.app/" target="_blank" rel="noopener noreferrer"><strong>FocusTide</strong><span>Try more focus options.</span><b>Open ↗</b></a>
+          <a href="https://www.kanbanpomodoro.com/app/" target="_blank" rel="noopener noreferrer"><strong>Kanban Pomodoro</strong><span>Organize tasks and use a timer.</span><b>Open ↗</b></a>
+        </div>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Getting started and staying focused for a set amount of time.</p></div>
+          <div><strong>Think about</strong><p>Does a timer help you focus or make you feel rushed?</p></div>
+        </div>
+      </details>
+<div class="focus-actions">
+        <button type="button" class="card-read" aria-label="Read Focus Timers information aloud" title="Read Focus Timers information aloud">
+<svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+<path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+<path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+</svg>
+</button>
+      </div>
+    </article>
+
+<article class="tool-card" data-cats="sequence transition plan start" data-search="fontstylelab visual schedule maker create visual schedules and routines with movable activities and visual supports. a learner benefits from a customized visual sequence rather than a text-only list.">
+      <div class="card-top">
+        <div>
+          <h3>FontStyleLab Visual Schedule Maker</h3>
+          <p class="desc">Create visual schedules and routines using movable activities and visual supports.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">VISUAL SCHEDULE</span><span class="badge">ROUTINES</span></div>
+      <details>
+        <summary aria-label="More information about FontStyleLab Visual Schedule Maker"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Following a routine with pictures or visual steps.</p></div>
+          <div><strong>Think about</strong><p>Can you set it up and use it easily?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://www.fontstylelab.com/visual-schedule-maker" target="_blank" rel="noopener noreferrer" aria-label="Visit FontStyleLab Visual Schedule Maker website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read FontStyleLab Visual Schedule Maker information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="sequence transition time" data-search="vissched an on-screen visual schedule emphasizing the current activity, time, and what comes next. a learner needs both sequence information and support anticipating transitions.">
+      <div class="card-top">
+        <div>
+          <h3>VisSched</h3>
+          <p class="desc">See the current activity, remaining time, and what comes next using visuals.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">NOW/NEXT</span><span class="badge">TRANSITIONS</span></div>
+      <details>
+        <summary aria-label="More information about VisSched"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Knowing what is happening now and what comes next.</p></div>
+          <div><strong>Think about</strong><p>Do you want to see one step or the whole day?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://www.vissched.com/vissched.html" target="_blank" rel="noopener noreferrer" aria-label="Visit VisSched website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read VisSched information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="plan time" data-search="free schedule maker a browser-based way to externalize a weekly or daily schedule. a learner needs to see commitments or activities arranged across time.">
+      <div class="card-top">
+        <div>
+          <h3>Free Schedule Maker</h3>
+          <p class="desc">Build a simple weekly or daily schedule directly in your browser for planning.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">SCHEDULE</span><span class="badge">PLANNING</span></div>
+      <details>
+        <summary aria-label="More information about Free Schedule Maker"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Seeing your day or week in one place.</p></div>
+          <div><strong>Think about</strong><p>Will you remember to look at the schedule?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://www.freeschedulemaker.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Free Schedule Maker website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Free Schedule Maker information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="regulate time transition" data-search="sensory shock a collection of browser-based sensory, calming, timer, schedule, and accessibility tools. a learner benefits from sensory or regulation supports before, during, or between tasks.">
+      <div class="card-top">
+        <div>
+          <h3>Sensory Shock</h3>
+          <p class="desc">Explore a collection of sensory, calming, timer, schedule, and accessibility tools.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">SENSORY</span><span class="badge">REGULATION</span></div>
+      <details>
+        <summary aria-label="More information about Sensory Shock"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Taking a break, calming, or getting ready to work.</p></div>
+          <div><strong>Think about</strong><p>Which tool on the site actually helps you?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://www.sensoryshock.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Sensory Shock website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Sensory Shock information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="remember prioritize plan" data-search="haven a more detailed task manager with organization features for larger task loads. a learner can manage a richer interface and needs more structure than a basic checklist provides.">
+      <div class="card-top">
+        <div>
+          <h3>Haven</h3>
+          <p class="desc">Organize larger task lists with tools for planning, prioritizing, and staying organized.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">TASKS</span><span class="badge">ORGANIZATION</span></div>
+      <details>
+        <summary aria-label="More information about Haven"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Organizing lots of tasks and steps.</p></div>
+          <div><strong>Think about</strong><p>Are there too many choices on the screen?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://taskhavens.com/app" target="_blank" rel="noopener noreferrer" aria-label="Visit Haven website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Haven information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="prioritize plan start" data-search="gsd task manager a visual task-prioritization tool for deciding what deserves attention first. a learner remembers tasks but struggles to decide what to do first.">
+      <div class="card-top">
+        <div>
+          <h3>GSD Task Manager</h3>
+          <p class="desc">Prioritize tasks visually to decide what needs your attention and action first.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">PRIORITIES</span><span class="badge">DECISION-MAKING</span></div>
+      <details>
+        <summary aria-label="More information about GSD Task Manager"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Choosing what to do first.</p></div>
+          <div><strong>Think about</strong><p>Do you know how to decide what is most important?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://gsd.vinny.dev/" target="_blank" rel="noopener noreferrer" aria-label="Visit GSD Task Manager website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read GSD Task Manager information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="time plan transition start" data-search="daychunks a visual day planner that places activities into chunks of time. a learner benefits from understanding where the current activity sits within the larger day.">
+      <div class="card-top">
+        <div>
+          <h3>DayChunks</h3>
+          <p class="desc">Plan your day visually by placing activities into clear, manageable chunks of time.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">VISUAL DAY</span><span class="badge">TIME AWARENESS</span></div>
+      <details>
+        <summary aria-label="More information about DayChunks"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Seeing how activities fit into your whole day.</p></div>
+          <div><strong>Think about</strong><p>Does seeing the whole day help or feel like too much?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://daychunks.com/visual-day-planner/edit" target="_blank" rel="noopener noreferrer" aria-label="Visit DayChunks website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read DayChunks information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="plan remember" data-search="plannerdock a browser planner for organizing daily tasks and routines. a learner needs a broader planning space rather than a single-purpose checklist.">
+      <div class="card-top">
+        <div>
+          <h3>PlannerDock</h3>
+          <p class="desc">Organize daily tasks and routines using a simple browser-based planner.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">PLANNER</span><span class="badge">ORGANIZATION</span></div>
+      <details>
+        <summary aria-label="More information about PlannerDock"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Planning tasks and routines for the day.</p></div>
+          <div><strong>Think about</strong><p>Will you keep using and updating it?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://plannerdock.net/planner" target="_blank" rel="noopener noreferrer" aria-label="Visit PlannerDock website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read PlannerDock information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+<article class="tool-card" data-cats="remember" data-search="naremis a deliberately minimal daily task list. a learner needs a simple external memory support with very little interface complexity.">
+      <div class="card-top">
+        <div>
+          <h3>Naremis</h3>
+          <p class="desc">Keep track of daily tasks using a simple, minimal to-do list for planning.</p>
+        </div>
+      </div>
+      <div class="badges"><span class="badge">SIMPLE LIST</span><span class="badge">REMEMBERING</span></div>
+      <details>
+        <summary aria-label="More information about Naremis"><span>See if this tool could help</span></summary>
+        <div class="detail-grid">
+          <div><strong>May help with</strong><p>Keeping a simple list of what you need to do.</p></div>
+          <div><strong>Think about</strong><p>Is a simple list enough to remind you?</p></div>
+        </div>
+      </details>
+      <div class="card-actions">
+        <a class="visit" href="https://naremis.com/app" target="_blank" rel="noopener noreferrer" aria-label="Visit Naremis website">Visit tool <span aria-hidden="true">↗</span></a>
+        <button type="button" class="card-read" title="Read this tool aloud" aria-label="Read Naremis information aloud">
+        <svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+          <path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path>
+          <path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path>
+        </svg>
+      </button>
+      </div>
+    </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p><strong>Find What Fits</strong> · Geneva M. Sambor, M.Ed. · K–12 Digital Learning Specialist</p>
+  <p>Set in <strong>Atkinson Hyperlegible</strong>, created by the Braille Institute to improve character recognition and readability.</p>
+  <p>Tool availability and website features can change. Follow your school or district requirements before student use.</p>
+</footer>
+
+<script>
+const buttons=[...document.querySelectorAll('.filter')];
+const cards=[...document.querySelectorAll('.tool-card')];
+const search=document.getElementById('search');
+const meta=document.getElementById('resultsMeta');
+let current='all';
+
+function applyFilters(){
+  const q=search.value.trim().toLowerCase();
+  let shown=0;
+
+  cards.forEach(card=>{
+    const cats=card.dataset.cats.split(' ');
+    const catOK=current==='all'||cats.includes(current);
+    const searchOK=!q||card.dataset.search.includes(q);
+    const visible=catOK&&searchOK;
+    card.hidden=!visible;
+    if(visible) shown++;
+  });
+
+  // Keep every result view predictable: A–Z by displayed card title.
+  [...cards]
+    .sort((a,b)=>{
+      const aName=a.querySelector('h3').textContent.trim();
+      const bName=b.querySelector('h3').textContent.trim();
+      return aName.localeCompare(bName, undefined, {sensitivity:'base'});
+    })
+    .forEach(card=>document.getElementById('toolGrid').appendChild(card));
+
+  meta.textContent=`${shown} tool${shown===1?'':'s'} shown`;
+}
+
+buttons.forEach(btn=>btn.addEventListener('click',()=>{
+  current=btn.dataset.filter;
+  buttons.forEach(b=>{ b.classList.toggle('active',b===btn); b.setAttribute('aria-pressed',b===btn?'true':'false'); });
+  applyFilters();
+  document.getElementById('toolGrid').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+search.addEventListener('input',applyFilters);
+applyFilters();
+</script>
+
+
+
+
+<script>
+(() => {
+  const button = document.getElementById('guideToggle');
+  const more = document.getElementById('guideMore');
+  if (!button || !more) return;
+
+  button.addEventListener('click', () => {
+    const isOpen = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!isOpen));
+    more.hidden = isOpen;
+    button.firstChild.textContent = isOpen ? 'Try the 6-step guide ' : 'Hide the guide ';
+    button.querySelector('span').textContent = isOpen ? '+' : '−';
+  });
+})();
+</script>
+
+
+
+
+
+<script>
+(() => {
+  const buttons = [...document.querySelectorAll('.card-read')];
+  if (!buttons.length) return;
+
+  const canSpeak = 'speechSynthesis' in window;
+  const canHighlight = 'highlights' in CSS && 'Highlight' in window;
+
+  if (!canSpeak) {
+    buttons.forEach(button => button.hidden = true);
+    return;
+  }
+
+  let activeButton = null;
+  let activeCard = null;
+  let openedDetails = null;
+
+  function clearHighlight() {
+    if (canHighlight) CSS.highlights.delete('spoken-word');
+  }
+
+  function reset() {
+    clearHighlight();
+    if (activeCard) activeCard.classList.remove('is-being-read');
+
+    if (activeButton) {
+      activeButton.setAttribute('aria-pressed','false');
+      activeButton.setAttribute('aria-label','Read this tool aloud');
+      activeButton.title='Read this tool aloud';
+      activeButton.innerHTML='<svg class="speaker-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4Z"></path><path d="M16 9.5c1.3 1.3 1.3 3.7 0 5"></path><path d="M18.5 7c2.8 2.8 2.8 7.2 0 10"></path></svg>';
+    }
+
+    activeButton = null;
+    activeCard = null;
+    openedDetails = null;
+  }
+
+  function stopReading() {
+    window.speechSynthesis.cancel();
+    reset();
+  }
+
+  function collectWords(card) {
+    const words = [];
+    let spoken = '';
+
+    /* Include title, description, tags, the "See if..." prompt,
+       and the expanded May help with / Think about content. */
+    const selectors = [
+      'h3',
+      '.desc',
+      '.badge',
+      'details summary span',
+      'details .detail-grid strong',
+      'details .detail-grid p',
+      '.timer-options button',
+      '.timer-links button',
+      '.timer-list button',
+      '.timer-option',
+      '.timer-name',
+      '.timer-options a',
+      '.timer-links a',
+      '.timer-list a'
+    ];
+
+    card.querySelectorAll(selectors.join(',')).forEach(el => {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let node;
+
+      while ((node = walker.nextNode())) {
+        const matches = [...node.nodeValue.matchAll(/\S+/g)];
+
+        matches.forEach(match => {
+          if (spoken) spoken += ' ';
+          const speechStart = spoken.length;
+          spoken += match[0];
+
+          words.push({
+            node,
+            localStart: match.index,
+            localEnd: match.index + match[0].length,
+            speechStart,
+            speechEnd: spoken.length
+          });
+        });
+      }
+    });
+
+    return {spoken, words};
+  }
+
+  function highlightWord(word) {
+    clearHighlight();
+    if (!canHighlight || !word || !word.node || !word.node.isConnected) return;
+
+    const range = new Range();
+    range.setStart(word.node, word.localStart);
+    range.setEnd(word.node, word.localEnd);
+
+    CSS.highlights.set('spoken-word', new Highlight(range));
+
+    const parent = word.node.parentElement;
+    if (parent) parent.scrollIntoView({block:'nearest', inline:'nearest'});
+  }
+
+  buttons.forEach(button => {
+    button.setAttribute('aria-pressed','false');
+
+    button.addEventListener('click', () => {
+      const card = button.closest('.tool-card');
+
+      if (activeButton === button && window.speechSynthesis.speaking) {
+        stopReading();
+        return;
+      }
+
+      stopReading();
+
+      /* Open the feature-match section so spoken content is also visible. */
+      const details = card.querySelector('details');
+      if (details && !details.open) {
+        details.open = true;
+        openedDetails = details;
+      }
+
+      const {spoken, words} = collectWords(card);
+      if (!spoken) return;
+
+      const utterance = new SpeechSynthesisUtterance(spoken);
+      utterance.rate = 0.9;
+
+      activeButton = button;
+      activeCard = card;
+      card.classList.add('is-being-read');
+      button.setAttribute('aria-pressed','true');
+      button.setAttribute('aria-label','Stop reading');
+      button.title='Stop reading';
+
+      utterance.onboundary = event => {
+        if (event.name && event.name !== 'word') return;
+
+        let word = words.find(item =>
+          event.charIndex >= item.speechStart &&
+          event.charIndex < item.speechEnd
+        );
+
+        if (!word) {
+          for (let i = words.length - 1; i >= 0; i--) {
+            if (words[i].speechStart <= event.charIndex) {
+              word = words[i];
+              break;
+            }
+          }
+        }
+
+        highlightWord(word);
+      };
+
+      utterance.onend = reset;
+      utterance.onerror = reset;
+      window.speechSynthesis.speak(utterance);
+    });
+  });
+})();
+</script>
+
+
+<script>
+(() => {
+  const toggle = document.getElementById('colorlessToggle');
+  if (!toggle) return;
+
+  const saved = localStorage.getItem('findWhatFitsColorless') === 'true';
+
+  function setMode(on) {
+    document.body.classList.toggle('colorless', on);
+    toggle.setAttribute('aria-pressed', String(on));
+    toggle.setAttribute('aria-label', on ? 'Turn off colorless mode' : 'Turn on colorless mode');
+    toggle.querySelector('span').textContent = on ? 'Use color' : 'Colorless';
+  }
+
+  setMode(saved);
+
+  toggle.addEventListener('click', () => {
+    const on = !document.body.classList.contains('colorless');
+    setMode(on);
+    localStorage.setItem('findWhatFitsColorless', String(on));
+  });
+})();
+</script>
+
+</body>
+</html>
